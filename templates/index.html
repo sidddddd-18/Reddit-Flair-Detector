@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Reddit Flair Detector</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<h1>Reddit Flair Detector</h1>
+				<p>Enter the URL of a post from r/India reddit page</p>
+			</header>
+
+		<!-- Form -->
+			<form id="form" method="post" action="#">
+				<input type="text" name="URL" id="URL" placeholder="URL" />
+				<input type="submit" value="Predict" />
+			</form>
+			{% with messages = get_flashed_messages() %}
+				{%if messages%}
+					{% for message in messages%}
+						<h3>{{ message }}</h3>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}	
+		<!-- Scripts -->
+			<script src="{{ url_for( 'static' , filename='js/main.js') }}"></script>
+	</body>
+</html>
