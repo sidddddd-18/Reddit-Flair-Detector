@@ -36,7 +36,14 @@ def home():
 
 	if request.method == "POST":
 		link=request.form["URL"]
-		sub=reddit.submission(url=str(link))
+		try:
+				sub=reddit.submission(url=str(link))
+		except:
+			flash("Try again")
+			return render_template("index.html")
+		if str(sub.subreddit)!="india":
+			flash("Post does not belong to r/india")
+			return render_template("index.html")
 		posts=[]
 		title=sub.title
 		url=sub.url
