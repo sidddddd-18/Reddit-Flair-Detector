@@ -1,7 +1,6 @@
 praw
 pandas
 flask
-pickle
 bs4
 re
 lxml
