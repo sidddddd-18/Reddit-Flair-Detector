@@ -2,6 +2,5 @@ praw
 pandas
 flask
 bs4
-re
 lxml
 nltk
