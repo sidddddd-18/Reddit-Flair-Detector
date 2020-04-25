@@ -6,3 +6,4 @@ lxml
 nltk
 gunicorn
 sklearn
+json

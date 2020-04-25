@@ -46,7 +46,7 @@ def home():
 			return render_template("index.html")
 	return render_template("index.html")
 
-@app.route('/automated_testing',method=['POST'])
+@app.route('/automated_testing',methods=['POST'])
 def automated_testing():
 	file=request.form['upload_file']
 	links=file.read().decode('utf-8').split('\n')
