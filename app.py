@@ -37,13 +37,18 @@ def home():
 
 	if request.method == "POST":
 		link=request.form["URL"]
-		result=predict(link)
-		if result=="Url not valid" or result=="Post does not belong to r/india":
-			flash(result)
+		try:
+				sub=reddit.submission(url=str(link))
+		except:
+			flash("Url not valid")
 			return render_template("index.html")
-		else :
-			flash("The flair is : "+result)
+		if str(sub.subreddit)!="india":
+			flash("Post does not belong to r/india")
 			return render_template("index.html")
+		result=predict(sub)	
+
+		flash(result)
+		return render_template("index.html")
 	return render_template("index.html")
 
 @app.route('/automated_testing',methods=['POST'])
@@ -52,20 +57,23 @@ def automated_testing():
 	links=file.read().decode('utf-8').split('\n')
 	results={}
 	for i in links:
-		result=predict(i)
-		results[link] = result
-	return json.dumps(results)
+		check=""
+		try:
+				sub=reddit.submission(url=str(i))
+		except:
+			check=check+"Url not valid"
+		if check=="Url not valid":
+			results[i]=check
+		elif str(sub.subreddit)!="india":
+			results[i]="Post does not belong to r/india"
+		else: 
+			result=predict(sub)
+			results[i]=result
+	return json.dumps(results)	
 
 
-def predict(link):
-	try:
-		sub=reddit.submission(url=str(link))
-	except:
-		error="Url not valid"
-		return error
-	if str(sub.subreddit)!="india":
-		error="Post does not belong to r/india"
-		return error
+
+def predict(sub):
 	posts=[]
 	title=sub.title
 	url=sub.url
@@ -103,12 +111,17 @@ def predict(link):
 	data["title"]=data["title"].apply(clean_text)
 	data["body"]=data["body"].apply(clean_text)
 	data["comments"]=data["comments"].apply(clean_text)
+
 	combination=data["comments"]+data["title"]+data["url"]+data["body"]
+
 
 	loaded_model=pickle.load(open("model/SVM_ctbu.sav",'rb'))
 	predicted_flair=loaded_model.predict(combination)
-	result=str(predicted_flair)
+	result=str(predicted_flair)	
 	return result[2:(len(result)//2)-1]
+
+
+
 
 if __name__ == '__main__':
 	app.run()    
