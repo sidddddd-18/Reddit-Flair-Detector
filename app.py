@@ -53,23 +53,19 @@ def home():
 
 @app.route('/automated_testing',methods=['POST'])
 def automated_testing():
-	file=request.form['upload_file']
+	reddit=praw.Reddit(client_id='Qq1MxtQ9YVNXgA', \
+                     client_secret='hg00d83IEYWEAAT0RdFzm50zm5E', \
+                     user_agent='testing', \
+                     username='mic_testing123', \
+                     password='Cookies')
+	file=request.files['upload_file']
 	links=file.read().decode('utf-8').split('\n')
 	results={}
 	for i in links:
-		check=""
-		try:
-				sub=reddit.submission(url=str(i))
-		except:
-			check=check+"Url not valid"
-		if check=="Url not valid":
-			results[i]=check
-		elif str(sub.subreddit)!="india":
-			results[i]="Post does not belong to r/india"
-		else: 
-			result=predict(sub)
-			results[i]=result
-	return json.dumps(results)	
+		sub=reddit.submission(url=str(i))
+		result=predict(sub)
+		results[i]=result
+	return json.dumps(results)
 
 
 
