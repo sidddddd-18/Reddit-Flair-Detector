@@ -69,7 +69,7 @@ The dataset is split into 90% train and 10% test data using train-test-split of 
 
 **Body**
 
-**SCore**
+**Score**
 
 **Author**
 
