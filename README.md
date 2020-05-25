@@ -11,6 +11,9 @@ The web app is developed by Flask+HTML+CSS and is hosted on Heroku web server
 1) Open the terminal
 
 2) Clone the repository by entering 
+```bash
+git clone https://github.com/sidddddd-18/Reddit-Flair-Detector.git
+```
 
 3) Ensure that Python3 and pip are installed
 
